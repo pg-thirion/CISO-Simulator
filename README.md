@@ -19,11 +19,11 @@ All costs are fictional USD thousands. This is an educational simulation, not re
 
 ## Tests
 
-Run `node test.js`. The deterministic engine tests cover validation, budget and action constraints, duplicate decisions, immutable transitions, repeatability, monthly progression and 300 complete campaign simulations across all industries and difficulties.
+Run `node test.js`. The deterministic engine tests cover validation, budget and action constraints, duplicate decisions, immutable transitions, repeatability, monthly progression and 300 baseline campaigns plus 1,200 mixed-strategy campaigns across all industries and difficulties. Every scenario response and its mitigation are exercised. To run browser smoke tests: `npm install --no-save --package-lock=false --ignore-scripts playwright@1.56.1`, `npx playwright install chromium firefox webkit`, then `node browser-test.js`.
 
 ## Deployment
 
-This repository contains static files. Enable GitHub Pages from Settings > Pages > Deploy from a branch > main > / (root), or use another static hosting service. No server-side dependencies.
+This repository contains static files. Enable GitHub Pages from Settings > Pages > Build and deployment > Source > GitHub Actions, then run the Test and deploy workflow from the Actions tab. The workflow deploys only after the engine and browser tests pass. No server-side dependencies.
 
 ## Privacy
 

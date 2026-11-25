@@ -1,13 +1,50 @@
-name: Simulation tests
-on: [push, pull_request]
+name: Test and deploy
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: ciso-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: node --check engine.js && node --check app.js && node test.js
+      - run: node --check engine.js && node --check app.js && node --check browser-test.js && node test.js
+      - run: npm install --no-save --package-lock=false --ignore-scripts playwright@1.56.1
+      - run: npx playwright install --with-deps chromium firefox webkit
+      - run: node browser-test.js
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - name: Prepare static site
+        run: |
+          mkdir site
+          cp index.html app.js engine.js style.css icon.svg site/
+          touch site/.nojekyll
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
