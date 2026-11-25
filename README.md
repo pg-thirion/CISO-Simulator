@@ -28,3 +28,7 @@ This repository contains static files. Vercel builds the static app using `verce
 ## Privacy
 
 No tracking or remote requests. Progress remains in localStorage on the current browser. Exported reports are generated locally. No sensitive information is required.
+
+## Expanded programme
+
+18 controls, nine staff roles, twelve initiatives and 22 incident scenarios. Finance adds emergency reserves, cyber insurance, premium and payout accounting, funding forecasts and quarterly board requests. Governance adds six risk groups with owners, assessments and time-limited acceptance, simplified NIST CSF function coverage, sector targets, achievements and incident history. Staff training and restructuring are available. Existing version-one saves migrate automatically. All mechanics and financial figures are fictional, not professional guidance.
