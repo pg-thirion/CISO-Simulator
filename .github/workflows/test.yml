@@ -1,4 +1,4 @@
-name: Test and deploy
+name: Regression tests
 on:
   push:
     branches: [main]
@@ -24,31 +24,3 @@ jobs:
       - run: npm install --no-save --package-lock=false --ignore-scripts playwright@1.56.1
       - run: npx playwright install --with-deps chromium firefox webkit
       - run: node browser-test.js
-  deploy:
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    needs: test
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-      - uses: actions/configure-pages@v5
-      - name: Prepare static site
-        run: |
-          mkdir site
-          cp index.html app.js engine.js style.css icon.svg site/
-          touch site/.nojekyll
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: site
-      - name: Deploy
-        id: deployment
-        uses: actions/deploy-pages@v4

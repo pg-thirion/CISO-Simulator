@@ -23,7 +23,7 @@ Run `node test.js`. The deterministic engine tests cover validation, budget and 
 
 ## Deployment
 
-This repository contains static files. Enable GitHub Pages from Settings > Pages > Build and deployment > Source > GitHub Actions, then run the Test and deploy workflow from the Actions tab. The workflow deploys only after the engine and browser tests pass. No server-side dependencies.
+This repository contains static files. Vercel builds the static app using `vercel.json`. The build runs engine tests and copies only the public assets into `site/`. GitHub Actions independently runs cross-browser regression tests.
 
 ## Privacy
 
